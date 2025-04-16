@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Chat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .phone-container {
+            width: 360px;
+            height: 720px;
+            background-color: #f0f2f5;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .back-button {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .back-button svg {
+            width: 20px;
+            height: 20px;
+            fill: #555;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            margin-left: 10px;
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-weight: 600;
+            font-size: 16px;
+            letter-spacing: -0.5px;
+            line-height: 1;
+        }
+
+        .profile-status {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            position: relative;
+        }
+
+        .header-action {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .header-action svg {
+            width: 20px;
+            height: 20px;
+            fill: #555;
+        }
+        
+        .header-dropdown {
+            position: absolute;
+            top: 35px;
+            right: 0;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 160px;
+            z-index: 100;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .header-dropdown.show {
+            display: block;
+        }
+        
+        .dropdown-option {
+            padding: 12px 15px;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        
+        .dropdown-option:hover {
+            background-color: #f8f8f8;
+        }
+        
+        .dropdown-option:last-child {
+            border-bottom: none;
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background-color: #e5e5e5;
+        }
+
+        .chat-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .message-received {
+            background-color: #fff;
+            align-self: flex-start;
+            border-top-left-radius: 5px;
+        }
+
+        .message-sent {
+            background-color: #0084ff;
+            color: white;
+            align-self: flex-end;
+            border-top-right-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 10px;
+            margin-top: 5px;
+            opacity: 0.7;
+            text-align: right;
+        }
+
+        .input-area {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: #f0f2f5;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .input-plus {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: #0084ff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .message-input {
+            flex: 1;
+            background-color: #fff;
+            border-radius: 18px;
+            padding: 8px 15px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .message-input input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .send-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #0084ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .send-button svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .date-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .date-divider span {
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="chat-header">
+            <div class="back-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                </svg>
+            </div>
+            <div class="profile-info">
+                <div class="profile-pic">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Profile">
+                </div>
+                <div>
+                    <div class="profile-name">Pro. Emily Carter</div>
+                    <div class="profile-status">Online</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="header-action" id="menuButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+                    </svg>
+                </div>
+                <div class="header-dropdown" id="headerDropdown">
+                    <div class="dropdown-option">View teacher info</div>
+                    <div class="dropdown-option">Leave chat</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-container">
+            <div class="date-divider">
+                <span>Yesterday</span>
+            </div>
+            
+            <div class="message message-received">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                <div class="message-time">4:15 PM</div>
+            </div>
+            
+            <div class="message message-sent">
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+                <div class="message-time">4:18 PM</div>
+            </div>
+            
+            <div class="message message-received">
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.
+                <div class="message-time">4:20 PM</div>
+            </div>
+            
+            <div class="message message-sent">
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa.
+                <div class="message-time">4:25 PM</div>
+            </div>
+            
+            <div class="date-divider">
+                <span>Today</span>
+            </div>
+            
+            <div class="message message-received">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                <div class="message-time">10:30 AM</div>
+            </div>
+            
+            <div class="message message-sent">
+                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                <div class="message-time">10:32 AM</div>
+            </div>
+            
+            <div class="message message-received">
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+                <div class="message-time">10:33 AM</div>
+            </div>
+            
+            <div class="message message-sent">
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.
+                <div class="message-time">10:35 AM</div>
+            </div>
+            
+            <div class="message message-received">
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error.
+                <div class="message-time">10:38 AM</div>
+            </div>
+            
+            <div class="message message-sent">
+                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+                <div class="message-time">10:40 AM</div>
+            </div>
+            
+            <div class="message message-received">
+                Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur.
+                <div class="message-time">10:42 AM</div>
+            </div>
+            
+            <div class="message message-sent">
+                Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit.
+                <div class="message-time">10:45 AM</div>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <div class="input-plus">+</div>
+            <div class="message-input">
+                <input type="text" placeholder="Type message here">
+            </div>
+            <div class="send-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Xử lý sự kiện quay lại trang chủ khi nhấn nút back
+        document.querySelector('.back-button').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+        
+        // Xử lý dropdown menu khi nhấn nút 3 chấm
+        const menuButton = document.getElementById('menuButton');
+        const headerDropdown = document.getElementById('headerDropdown');
+        
+        menuButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            headerDropdown.classList.toggle('show');
+        });
+        
+        // Ẩn dropdown khi click bên ngoài
+        document.addEventListener('click', function(e) {
+            if (!headerDropdown.contains(e.target) && e.target !== menuButton) {
+                headerDropdown.classList.remove('show');
+            }
+        });
+        
+        // Xử lý chức năng gửi tin nhắn
+        const messageInput = document.querySelector('.message-input input');
+        const sendButton = document.querySelector('.send-button');
+        const chatContainer = document.querySelector('.chat-container');
+        
+        function sendMessage() {
+            const messageText = messageInput.value.trim();
+            if (messageText) {
+                // Lấy thời gian hiện tại
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+                const formattedTime = `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${hours >= 12 ? 'PM' : 'AM'}`;
+                
+                // Tạo tin nhắn mới
+                const newMessage = document.createElement('div');
+                newMessage.className = 'message message-sent';
+                newMessage.innerHTML = `
+                    ${messageText}
+                    <div class="message-time">${formattedTime}</div>
+                `;
+                
+                // Thêm tin nhắn vào chat container
+                chatContainer.appendChild(newMessage);
+                
+                // Xóa văn bản trong input
+                messageInput.value = '';
+                
+                // Cuộn xuống tin nhắn mới nhất
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        }
+        
+        // Xử lý khi nhấn nút gửi
+        sendButton.addEventListener('click', sendMessage);
+        
+        // Xử lý khi nhấn Enter trong input
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages assignment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .phone-container {
+            width: 360px;
+            height: 720px;
+            background-color: #f0f2f5;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .back-button svg {
+            width: 24px;
+            height: 24px;
+            fill: #333;
+        }
+
+        .header-title {
+            font-size: 17px;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .tab-menu {
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+            background-color: #fff;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            color: #007aff;
+            border-bottom: 2px solid #007aff;
+        }
+
+        .parent-list {
+            flex: 1;
+            overflow-y: auto;
+            background-color: #fff;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE và Edge */
+        }
+        
+        .parent-list::-webkit-scrollbar {
+            display: none; /* Chrome và Safari */
+        }
+
+        .parent-item {
+            display: flex;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
+            align-items: center;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            overflow: hidden;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .parent-info {
+            flex: 1;
+        }
+
+        .parent-name {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 2px;
+        }
+
+        .parent-message {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 2px;
+        }
+
+        .time-ago {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .select-button {
+            padding: 4px 6px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #333;
+            cursor: pointer;
+            margin-left: 10px;
+            height: fit-content;
+        }
+
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+            background-color: #f2f2f2;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #888;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: #007aff;
+        }
+
+        .nav-icon {
+            margin-bottom: 4px;
+        }
+
+        .nav-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff3b30;
+            color: white;
+            font-size: 11px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="header">
+            <div class="back-button" id="backButton">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                </svg>
+            </div>
+            <div class="header-title">Messages assignment</div>
+        </div>
+
+        <div class="tab-menu">
+            <div class="tab">Group</div>
+            <div class="tab active">Parent</div>
+            <div class="tab">Lastest</div>
+        </div>
+
+        <div class="parent-list">
+            <div class="parent-item">
+                <div class="profile-pic">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Profile">
+                </div>
+                <div class="parent-info">
+                    <div class="parent-name">Emily Carter</div>
+                    <div class="parent-message">Lorem ipsum in porttitor</div>
+                    <div class="time-ago">20 minutes ago</div>
+                </div>
+                <button class="select-button">Select teacher</button>
+            </div>
+
+            <div class="parent-item">
+                <div class="profile-pic">
+                    <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Profile">
+                </div>
+                <div class="parent-info">
+                    <div class="parent-name">Taylor Smith</div>
+                    <div class="parent-message">Lorem ipsum in porttitor</div>
+                    <div class="time-ago">20 minutes ago</div>
+                </div>
+                <button class="select-button">Select teacher</button>
+            </div>
+
+            <div class="parent-item">
+                <div class="profile-pic">
+                    <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Profile">
+                </div>
+                <div class="parent-info">
+                    <div class="parent-name">Emily Carter</div>
+                    <div class="parent-message">Lorem ipsum in porttitor</div>
+                    <div class="time-ago">20 minutes ago</div>
+                </div>
+                <button class="select-button">Select teacher</button>
+            </div>
+
+            <div class="parent-item">
+                <div class="profile-pic">
+                    <img src="https://randomuser.me/api/portraits/women/41.jpg" alt="Profile">
+                </div>
+                <div class="parent-info">
+                    <div class="parent-name">Algebra Assignment</div>
+                    <div class="parent-message">Lorem ipsum in porttitor</div>
+                    <div class="time-ago">20 minutes ago</div>
+                </div>
+                <button class="select-button">Select teacher</button>
+            </div>
+
+            <div class="parent-item">
+                <div class="profile-pic">
+                    <img src="https://randomuser.me/api/portraits/women/40.jpg" alt="Profile">
+                </div>
+                <div class="parent-info">
+                    <div class="parent-name">Sarah Thompson</div>
+                    <div class="parent-message">Lorem ipsum in porttitor</div>
+                    <div class="time-ago">20 minutes ago</div>
+                </div>
+                <button class="select-button">Select teacher</button>
+            </div>
+
+            <div class="parent-item">
+                <div class="profile-pic">
+                    <img src="https://randomuser.me/api/portraits/women/39.jpg" alt="Profile">
+                </div>
+                <div class="parent-info">
+                    <div class="parent-name">Linda Martinez</div>
+                    <div class="parent-message">Lorem ipsum in porttitor</div>
+                    <div class="time-ago">20 minutes ago</div>
+                </div>
+                <button class="select-button">Select teacher</button>
+            </div>
+
+            <div class="parent-item">
+                <div class="profile-pic">
+                    <img src="https://randomuser.me/api/portraits/women/38.jpg" alt="Profile">
+                </div>
+                <div class="parent-info">
+                    <div class="parent-name">Jessica Lee</div>
+                    <div class="parent-message">Lorem ipsum in porttitor</div>
+                    <div class="time-ago">20 minutes ago</div>
+                </div>
+                <button class="select-button">Select teacher</button>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-item">
+                <div class="nav-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/>
+                    </svg>
+                </div>
+                <span>Dashboard</span>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+                <span>Profile</span>
+            </div>
+            <div class="nav-item">
+                <div class="nav-icon" style="position: relative;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 2C6.486 2 2 5.589 2 10c0 2.908 1.898 5.516 5 6.934V22l5.34-4.005C17.697 17.852 22 14.32 22 10c0-4.411-4.486-8-10-8zm0 14h-.333L9 18v-2.417l-.641-.247C5.67 14.301 4 12.256 4 10c0-3.309 3.589-6 8-6s8 2.691 8 6-3.589 6-8 6z"/>
+                    </svg>
+                    <span class="badge">2</span>
+                </div>
+                <span>Chats</span>
+            </div>
+            <div class="nav-item active">
+                <div class="nav-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#007aff">
+                        <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 14l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                    </svg>
+                </div>
+                <span>Assign</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Xử lý sự kiện nút back
+            document.getElementById('backButton').addEventListener('click', function() {
+                window.location.href = 'index.html';
+            });
+            
+            // Xử lý chuyển tab
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            // Xử lý nút Select teacher
+            const selectButtons = document.querySelectorAll('.select-button');
+            selectButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    alert('Selecting teacher...');
+                });
+            });
+            
+            // Xử lý bottom navigation
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach((item, index) => {
+                item.addEventListener('click', function() {
+                    if (index === 0) { // Dashboard
+                        // Chuyển đến trang dashboard nếu có
+                    } else if (index === 1) { // Profile
+                        window.location.href = 'index.html';
+                    } else if (index === 2) { // Chats
+                        window.location.href = 'index.html';
+                    } else if (index === 3) { // Assign
+                        // Đã ở trang assign
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
