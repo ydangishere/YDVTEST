@@ -372,7 +372,7 @@
             navItems.forEach((item, index) => {
                 item.addEventListener('click', function() {
                     if (index === 0) { // Dashboard
-                        // Chuyển đến trang dashboard nếu có
+                        window.location.href = 'dashboard.html';
                     } else if (index === 1) { // Profile
                         window.location.href = 'index.html';
                     } else if (index === 2) { // Chats
